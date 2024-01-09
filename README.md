@@ -1,7 +1,7 @@
 <!-- README file for my repo containing project Folder 1 and project Folder 2 -->
 
 ### Table of Contents :bookmark_tabs:
-- [CheckPoint](#checkpoint-heavy_check_mark-fire) :heavy_check_mark: <a href="[https://github.com/Faizan0987654321/Repo/tree/main/Folder%201](https://github.com/Faizan0987654321/Repo/tree/main/Folder%201#checkpoint-heavy_check_mark-fire)" target="_blank">Open</a>
+- [CheckPoint](#checkpoint-heavy_check_mark-fire) :heavy_check_mark: <a href="https://github.com/Faizan0987654321/Repo/tree/main/Folder%201#checkpoint-heavy_check_mark-fire">open</a>
     - [Introduction](#introduction-wave)
     - [Contributors](#contributors-busts_in_silhouette)
     - [Features](#features-sparkles)
