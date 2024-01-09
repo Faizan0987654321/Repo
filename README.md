@@ -1,32 +1,36 @@
 <!-- README file for my repo containing project Folder 1 and project Folder 2 -->
 
 ### Table of Contents :bookmark_tabs:
-- :heavy_check_mark: [CheckPoint](#checkpoint-heavy_check_mark-fire)
+- [CheckPoint](#checkpoint-heavy_check_mark-fire) :heavy_check_mark:
     - [Introduction](#introduction-wave)
     - [Contributors](#contributors-busts_in_silhouette)
     - [Features](#features-sparkles)
     - [Installation & Setup](#installation--setup-wrench)
     - [Usage & Workflow](#usage--workflow-computer)
-- :mag_right: [IAM Incident Finder](#iam-incident-finder-mag_right)
+&nbsp;
+-  [IAM Incident Finder](#iam-incident-finder-mag_right):mag_right:
     - [Introduction](#introduction-wave-1)
     - [Contributors](#contributors-busts_in_silhouette-1)
     - [Features](#features-sparkles-1)
     - [Installation & Setup](#installation--setup-wrench-1)
     - [Usage & Workflow](#usage--workflow-computer-1)
-- :no_entry_sign: [SMKiller - SiteMinder disablement](#smkiller---siteminder-disablement-no_entry_sign)
+&nbsp;
+-  [SMKiller - SiteMinder disablement](#smkiller---siteminder-disablement-no_entry_sign):no_entry_sign:
     - [Introduction](#introduction-wave-2)
     - [Contributors](#contributors-busts_in_silhouette-2)
     - [Features](#features-sparkles-2)
     - [Installation & Setup](#installation--setup-wrench-2)
     - [Usage & Workflow](#usage--workflow-computer-2)
-    - [Acknowledgments](#acknowledgments-heart-2)
-    
-- :warning: [Troubleshooting & Support](#troubleshooting--support-warning-2) :warning: 
+&nbsp;
+- [Acknowledgments](#acknowledgments-heart)  
+- [Troubleshooting & Support](#troubleshooting--support-warning-2) 
 <!-- divider -->
 ___
 
 # CheckPoint :heavy_check_mark: :fire:
 
+<a><img src="https://img.shields.io/badge/Python-3.8.5-blue.svg" alt="Python 3.8.5"></a>
+<a><img src="https://img.shields.io/badge/PyQt5-5.15.2-red.svg" alt="PyQt5 5.15.2"></a>
 ## Introduction :wave:
 This is a sample README file for my repo containing project Folder 1 and project Folder 2
 
