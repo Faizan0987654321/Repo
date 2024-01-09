@@ -31,6 +31,8 @@ ___
 
 <a><img src="https://img.shields.io/badge/Python-3.8.5-blue.svg" alt="Python 3.8.5"></a>
 <a><img src="https://img.shields.io/badge/PyQt5-5.15.2-red.svg" alt="PyQt5 5.15.2"></a>
+[![bs4 Version](https://img.shields.io/badge/bs4-0.0.1-blue.svg)](https://pypi.org/project/bs4/)
+
 ## Introduction :wave:
 This is a sample README file for my repo containing project Folder 1 and project Folder 2
 
@@ -60,6 +62,12 @@ Follow these steps to run the application locally:
 
 
 # IAM Incident Finder :mag_right:
+[![Machine Learning](https://img.shields.io/badge/Machine_Learning-Topic-green.svg)](https://en.wikipedia.org/wiki/Machine_learning)
+[![KNN](https://img.shields.io/badge/KNN-Algorithm-blue.svg)](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)
+[![TF-IDF](https://img.shields.io/badge/TF--IDF-Technique-orange.svg)](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)
+[![Tkinter](https://img.shields.io/badge/Tkinter-GUI-yellow.svg)](https://docs.python.org/3/library/tkinter.html)
+[![Scikit-learn](https://img.shields.io/badge/Scikit--learn-Library-red.svg)](https://scikit-learn.org/stable/)
+
 
 ## Introduction :wave:
 This is a sample README file for my repo containing project Folder 1 and project Folder 2
