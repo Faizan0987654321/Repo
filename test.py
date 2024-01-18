@@ -91,4 +91,7 @@ button.pack(padx=10, pady=10)
 
 root.mainloop()
 
-# git commit -m "first commit"
+# commands to make changes in repo
+# git add .
+# git commit -m "message"
+# git push origin master
