@@ -75,7 +75,7 @@ def find_similar():
 root = tk.Tk()
 root.title("Incident Similarity Finder")
 root.geometry("1000x500")  # Set window size
-root.configure(bg='#f0f0f0')  # Set background color
+root.configure(bg='#f0f0f0')  # Set background color of the window
 
 # Label for entering incident description
 label = tk.Label(root, text="Enter Incident Description:", bg='#f0f0f0', fg='blue', font=('Arial', 12, 'bold'))
@@ -90,3 +90,5 @@ button = tk.Button(root, text="Find Similar Incidents", command=find_similar, bg
 button.pack(padx=10, pady=10)
 
 root.mainloop()
+
+# git commit -m "first commit"
