@@ -5,28 +5,9 @@ from bs4 import BeautifulSoup
 def calculate_runtime(start_time, end_time):
     start_datetime = datetime.datetime.strptime(start_time, '%m/%d/%Y %H:%M:%S')
     end_datetime = datetime.datetime.strptime(end_time, '%m/%d/%Y %H:%M:%S')
-    runtime = end_datetime - start_datetime
-    return runtime
+    return end_datetime - start_datetime
 
-def create_html_table(data):
-    grouped_data = {}
-    
-    # Group tasks and calculate average runtime
-    for task in data:
-        task_name = task['name']
-        if task_name.startswith('Task Faizan'):
-            task_name = 'All Faizan'
-
-        if task_name not in grouped_data:
-            grouped_data[task_name] = {
-                'total_runtime': calculate_runtime(task['start_time'], task['end_time']),
-                'count': 1
-            }
-        else:
-            grouped_data[task_name]['total_runtime'] += calculate_runtime(task['start_time'], task['end_time'])
-            grouped_data[task_name]['count'] += 1
-
-    # Calculate average runtime and create HTML table
+def create_html_table(grouped_data):
     table_html = """
     <table style="border-collapse: collapse; width: 100%; text-align: left; border: 2px solid #3498db;">
         <tr style="background-color: #3498db; color: #ffffff;">
@@ -66,11 +47,49 @@ def parse_html_file(file_path):
             })
         return task_data
 
+def filter_tasks_by_group(task_data, group_keywords):
+    return [task for task in task_data if any(keyword in task['name'] for keyword in group_keywords)]
+
+def group_and_average_tasks(tasks_data, group_name, group_keywords):
+    filtered_tasks = filter_tasks_by_group(tasks_data, group_keywords)
+    grouped_data = {}
+    for task in filtered_tasks:
+        task_name = group_name
+        if task_name not in grouped_data:
+            grouped_data[task_name] = {
+                'total_runtime': calculate_runtime(task['start_time'], task['end_time']),
+                'count': 1
+            }
+        else:
+            grouped_data[task_name]['total_runtime'] += calculate_runtime(task['start_time'], task['end_time'])
+            grouped_data[task_name]['count'] += 1
+    return grouped_data
+
 # Replace "success.html" with the actual path to your HTML file
 html_file_path = "success.html"
 tasks_data = parse_html_file(html_file_path)
 
-subject = "Task Runtimes Report"
-body = create_html_table(tasks_data)
+# Grouped Data
+faizan_grouped_data = group_and_average_tasks(tasks_data, 'All Faizan', ['Task Faizan'])
+group2_grouped_data = group_and_average_tasks(tasks_data, 'Group 2', ['Different Task'])
+practical_grouped_data = group_and_average_tasks(tasks_data, 'Practical Tasks', ['cust', 'const'])
 
-send_email(subject, body)
+# Single Tasks
+single_tasks = [task for task in tasks_data if task['name'] in ['Hardcoded 1', 'Hardcoded 2']]
+single_grouped_data = {}
+for task in single_tasks:
+    task_name = task['name']
+    single_grouped_data[task_name] = {
+        'total_runtime': calculate_runtime(task['start_time'], task['end_time']),
+        'count': 1
+    }
+
+# Combine all grouped data
+all_grouped_data = {**faizan_grouped_data, **group2_grouped_data, **practical_grouped_data, **single_grouped_data}
+
+# Create a single HTML table for all groups
+all_table_html = create_html_table(all_grouped_data)
+
+# Send a single email with all tables
+subject_all = "Task Runtimes Report - All Groups"
+send_email(subject_all, all_table_html)
