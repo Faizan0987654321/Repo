@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <meta charset="utf-8">
+    <title>Anomaly Detection System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding-right: 100mm;
+            padding-left: 100mm;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin-top: 20px;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        /* nullify padding when screen size <600px */
+        @media only screen and (max-width: 1000px) {
+            body {
+                padding: 0px;
+            }
+        }
+    </style>
+</head>
+<a href="./unsupervised.html" target="_blank">why unsupervised</a>
+<a href="./iforest.html" target="_blank">why iForest</a>
+<a href="./28.html" target="_blank">28% ??</a>
+<h2>Anomaly - what it is?</h2>
+<p>The primary goal was to reduce false positives in their fraud detection processes, which were costing the company
+    significant losses annually. We took an unsupervised machine learning approach using techniques like Isolation
+    Forest. The system ingested a large dataset of historical claims data, which was carefully preprocessed and
+    engineered with relevant features.</p>
+
+<h2>How it works?</h2>
+<p>Our anomaly detection system focused on several key indicators: transaction amount deviation from
+    user history, unusual merchant categories, rapid succession of transactions, high-risk geographies,
+    and sudden changes in transaction velocity. We also looked at network features like uncommon
+    connections between accounts. For example, a moderate-income account suddenly transacting with
+    multiple high-net-worth accounts would be flagged. We also monitored behavioral biometrics like
+    typing patterns and mouse movements to spot deviations from user norms.</p>
+
+<h2>Example use case</h2>
+<ol>
+    <li>One example of the system in action was when it flagged a series of transactions from a user who
+        had never made a purchase above $500. Suddenly, there were multiple transactions above $1,000
+        within a short time frame. The system recognized this as an anomaly and flagged it for further
+        investigation. It turned out that the user's account had been compromised, and the fraudsters were
+        attempting to make large purchases before the account owner noticed.</li>
+
+    <li>Another example was when the system flagged a claim for a car accident in a location known for
+        high rates of insurance fraud. The claim amount was unusually high, and the incident report
+        contained inconsistencies. Upon further investigation, it was revealed that the claim was
+        fraudulent, and the system had successfully detected it before any payment was made.</li>
+    <li>
+        One another example was when the system detected a sudden spike in claims for a specific type of policy. Upon
+        further investigation, it was discovered that a group of fraudsters was targeting that policy type due to a
+        vulnerability in the claims process. The anomaly detection system helped identify and prevent further fraudulent
+        claims from being processed.</li>
+    </li>
+</ol>
+<h2>Benefits</h2>
+<p>The anomaly detection system provided several key benefits to Travelers Insurance:</p>
+<ul>
+    <li>Reduced False Positives: By accurately identifying anomalous claims patterns, the system
+        significantly reduced false positives in fraud detection, saving the company time and
+        resources.</li>
+
+    <li>Improved Fraud Detection: The system was able to detect previously unseen fraud patterns
+        and adapt to evolving fraud tactics, enhancing the overall fraud detection capabilities of the
+        company.
+        lets say in 1990, the fraudsters were using a particular pattern to commit fraud, 
+        but in 2000 the tactics or the patterns evolved, in 2010 the patterns evolved again, 
+        so the system should be able to adapt to these changes and detect the fraud patterns.</li>
+
+    <li>Cost Savings: By preventing fraudulent claims from being processed, the system helped
+        Travelers Insurance avoid significant financial losses associated with fraudulent activities.</li>
+        
+    <li>Enhanced Customer Trust: By minimizing false positives and improving fraud detection
+        accuracy, the system helped build trust with policyholders and customers, demonstrating the
+        company's commitment to security and integrity.</li>
+</ul>
+
+<h2>Technical Details</h2>
+<h3>Data:</h3>
+
+    <ol>
+        <li>Policyholder information (age, location, policy details, etc.)</li>
+        <li>Claim details (type of claim, amount claimed, date of incident, etc.)</li>
+        <li>Claim descriptions and adjuster notes (unstructured text data)</li>
+        <li>Historical claims data for the same policyholder</li>
+        <li>External data sources (weather, crime rates in the area, etc.)</li>
+    </ol>
+
+    <p>We performed extensive feature engineering to extract relevant numerical and categorical features from this
+        data. This included techniques like one-hot encoding, text vectorization (TF-IDF, Word2Vec) for unstructured
+        data, and deriving new features based on domain knowledge.</p>
+
+    <h3>
+        Isolation Forest - Algorithm :
+    </h3>
+    <p>The Isolation Forest algorithm is particularly well-suited for anomaly detection in high-dimensional data. It
+        works by isolating observations by randomly selecting a feature and then randomly selecting a split value
+        between the minimum and maximum values of that feature.</p>
+
+    Here's a high-level overview of how we implemented Isolation Forest:
+
+    <ol>
+        <li>Training: We trained the Isolation Forest model on a subset of historical claims data that was assumed
+            to be largely free of anomalies (or had very few anomalies). This allowed the model to learn the
+            patterns of "normal" claims.</li>
+        <li>Scoring: During scoring, the trained Isolation Forest model would take a new claims data point as input
+            and compute an anomaly score based on how easily (or with how few splits) that data point could be
+            isolated from the rest of the data.</li>
+        <li>Threshold Selection: We experimented with different anomaly score thresholds to classify claims as
+            anomalous or not. This involved analyzing the score distributions, leveraging domain knowledge, and
+            validating against labeled datasets (where available) or using proxy labels based on previously
+            investigated fraud cases.</li>
+        <li>Ensemble Approach: To improve accuracy, we employed an ensemble of Isolation Forest models trained on
+            different subsets of features and data. The final anomaly score was computed as an aggregation (e.g.,
+            averaging) of the individual model scores.</li>
+    </ol>
+
+    <h3>Handling Challenges:</h3>
+    <p>We encountered and addressed several challenges in applying Isolation Forest to this problem:</p>
+
+    <ol>
+        <li>High Dimensionality: Insurance claims data can have hundreds of features. We addressed this by
+            performing dimensionality reduction techniques like PCA and feature selection before training the
+            Isolation Forest models.</li>
+        <li>Mixed Data Types: The data contained a mix of numerical, categorical, and unstructured text features. We
+            handled this by training separate models on different feature subsets and ensembling their outputs.</li>
+        <li>Imbalanced Data: The number of anomalous (fraudulent) claims was significantly lower than regular
+            claims. We addressed this by using techniques like oversampling and adjusting anomaly score thresholds.
+        </li>
+        <li>Concept Drift: Fraud patterns and claim behaviors can evolve over time. We implemented a continuous
+            learning pipeline where models were retrained periodically on new data to adapt to changing patterns.
+        </li>
+
+
+     
+    <li><strong>Data Quality and Consistency:</strong> The historical claims data was sourced from multiple systems and had
+        inconsistencies in formats, missing values, and data quality issues.</li>
+    <p><strong>Solution:</strong> We implemented data validation checks, data cleaning pipelines, and data
+        normalization techniques to ensure consistency and quality before training the models.</p>
+
+     
+    <li><strong>Model Interpretability and Explainability:</strong> Anomaly detection models like Isolation Forest are often considered "black-box"
+        models, making it challenging to explain the reasons behind a particular prediction.</li>
+    <li><strong>Solution:</strong> We employed techniques like SHAP (SHapley Additive exPlanations) values and LIME
+        (Local Interpretable Model-agnostic Explanations) to provide interpretability and insights into the model's
+        decision-making process.</li>
+
+      <li><strong>Real-time Scoring and Latency:</strong> The need for real-time anomaly scoring and
+        low-latency processing to flag potentially fraudulent claims as quickly as possible.</li>
+        <li><strong>Solution:</strong> We optimized the model inference pipelines, utilized streaming data processing
+            frameworks like Apache Flink, and implemented caching mechanisms to achieve near real-time scoring with
+            minimal latency.</li>
+        By effectively implementing the Isolation Forest algorithm, combined with data preprocessing, ensemble
+        methods, and continuous learning, we were able to develop an accurate and scalable anomaly detection system
+        that significantly improved fraud detection capabilities at Travelers Insurance.
+    </ol>
+        </body>
+
+</html>

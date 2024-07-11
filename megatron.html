@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Megatron-LM for ServiceNow Integration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding-right: 100mm;
+            padding-left: 100mm;
+        }
+        @media only screen and (max-width: 1000px) {
+            body {
+                padding: 0px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Megatron-LM for ServiceNow Integration</h1>
+    <p> we utilized the Megatron-LM language model which actually is a powerful transformer-based model designed for  training and to infer large-scale language models.</p>
+
+    <p>We fine-tuned this model on our preprocessed dataset of historical ServiceNow incidents coupled with resolutions. The model was trained to understand the context of incident descriptions and generate appropriate remediation steps based on the past incident data.</p>
+
+    <p>One of the key advantages of using Megatron-LM was its ability to handle long input sequences with no problems what so ever. Incident descriptions and resolutions can often be lengthy and complex, and Megatron-LM's was capable to capture long-range dependencies.</p>
+
+    <p>Additionally, Megatron allowed us to use multiple GPUs at a time, reducing the training time.</p>
+
+    <p>During inference, we deployed the fine-tuned Megatron-LM model as a containerized microservice, which exposed a REST API for generating remedies. When a new incident was created or updated in ServiceNow, the incident description was sent to the Megatron-LM service, which generated the appropriate remediation steps based on the learned patterns from the training data.
+
+    we used a pipeline to check for new incidents periodically and send them to the Megatron-LM service for generating remedies. The generated remedies were then presented to the support team for review and implementation over sevicenow comments.
+
+    we didnt go for real time because of the complexity of the model and the time it takes to generate the remedies.
+    anyhow a near real time model was implemented to check for new incidents every 5 minutes and generate remedies for them.</p>
+
+    <p>we can use transformer libraries for various purposes like text generation, summarization, and translation, question-answering, feature extraction (text embedding), tetx generation  and many more.</p>
+</body>
+</html>

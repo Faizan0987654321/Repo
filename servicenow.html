@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ServiceNow Integration with Gen AI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding-right: 100mm;
+            padding-left: 100mm;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        .insight-section {
+            margin-bottom: 20px;
+        }
+        .insight-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .insight-section li {
+            background-color: #ecf0f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        @media only screen and (max-width: 1000px) {
+            body {
+                padding: 0px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <ul>
+        <li><a href="./why_not_BERT_GPT.HTML" target="_blank">why not BERT or GPT?</a></li>
+        <li><a href="./FINETUNING.HTML" target="_blank">fine tuning</a></li>
+    </ul>
+    
+    <h1>ServiceNow Integration with Gen AI</h1>
+    <p>The goal of this project was to reduce manual effort in incident management by automatically generating remedies using a Gen AI system. We integrated a large language model (LLM) with ServiceNow, leveraging natural language processing (NLP) to understand incident descriptions and generate appropriate remediation steps.</p>
+    
+    <h2>Brief Technical Implementation</h2>
+    <p>The project integrated a generative AI system with the ServiceNow platform. When an incident was raised, the system analyzed the incident details using NLP techniques and generated relevant remedies or solutions using a fine-tuned LLM. These remedies were then presented to the support team, streamlining the incident resolution process.</p>
+    
+    <p>This one is one the most well architected which I've worked on.</p>
+    <p>Okay, so picture this: it's 2 AM, and a high-priority incident pops up. 'for agents site down, 503 errors spiking.' Now, traditionally, some poor soul gets a call, drowsily starts digging for logs, checks with requester for all the details. But with our system? It's like having a seasoned pro instantly on it.</p>
+    
+    <p>So, the journey begins the moment they hit submit. First stop, AWS API Gateway. It's our traffic cop, making sure the request is valid, has the right headers. Once green-lit, it triggers a Lambda function—think of it as our system's first responder.</p>
+    
+    <p>This Lambda does two key things: it pulls any related CloudWatch logs or config files from S3—because context is king—and it fires off the event to our Kafka cluster running on AWS MSK. I pushed for Kafka because there's a flood of follow-up tickets. Kafka ensures we don't drop any in the mayhem.</p>
+    
+    <p>Next, our custom Python service, what we call 'IncidentAssistant,' consumes from Kafka. It's running on an ECS cluster—we actually had to switch from Fargate to EC2 launch type because some tickets with huge log files were hitting memory limits. This service does NLP magic—tokenization, named entity recognition to spot things like server names, services. We lean on spaCy for this; it's pre-trained on a ton of IT lingo.</p>
+    
+    <p>Now, the enriched ticket data hits our core: Megatron-LM, our large language model, hosted on a fleet of EC2 P4d instances. Those machines have four A100 GPUs each. Why such horsepower? Well, with 200 million parameters and the need for blazing responses—IT folks hate waiting—we need that compute power. But here's the neat part: the first pass isn't through Megatron-LM.</p>
+    
+    <p>We're using mongodb's vector search to quickly find similar past incidents.</p>
+    
+    <p>These past incidents? They go right into Megatron-LM's prompt: 'Server returning 503, logs show request queue spike. Past similar incidents: INC001234, INC005678...' Now, Megatron-LM, based on both the current issue and past wisdom, crafts a response: 'High 503 rates + the queue spikes often indicate IIS app pool exhaustion. Apply INC001234's fix: Increase queue limit & recycle app pools. Then, check code via...'</p>
+    
+    <p>But machine-generated code touching production? Scary, right? That's why everything goes through our Safety Checker service on Lambda so We also built a rulebased system to check for high-risk commands (like rm -rf) or changes to critical files.</p>
+    
+    <p>Finally, for high-severity tickets, we had a human-in-the-loop system where an IT professional would review the suggestion before application.</p>
+    
+    <p>End-to-end? The whole dance is about 6 seconds. The engineers see the auto-generated remedy right in their ServiceNow comment field. They can tweak it, but 8 times out of 10, they apply it as-is. That '503 error' that used to mean a night ruined? Now it's often fixed before they finish their first sip of coffee.</p>
+    
+    <p>We're using the feedbacks to continually fine-tune Megatron-LM. It's like... it's learning to speak 'IT' more fluently every day.</p>
+    
+    <h2>One liner for all this -</h2>
+    <p>Incident ---> AWS API Gateway (for validation of headers in network) - > Lambda (for pulling logs and config files from S3 and firing off the event to Kafka) ---> Kafka (for not dropping any follow-up tickets) ---> Python service (for NLP magic) ---> Megatron-LM (for crafting response) ---> Safety Checker service (for checking high-risk commands) ---> Human-in-the-loop() ---> ServiceNow comment field (for auto-generated remedy) ---> Feedbacks (for fine-tuning Megatron-LM)</p>
+    
+    <h2>Data processed</h2>
+    <p>To launch the automatic remedy for non-critical incidents, the technology operations team uses a web-based tool to launch instances of the lambda function that triggers the incident assistant. The tool is built using AWS Amplify and AWS AppSync. The tool allows the team to select the incident type, provide additional context, and launch the lambda function. The lambda function then triggers the incident assistant, which follows the same process as described above. The tool also provides a dashboard to track the status of the incidents and view the auto-generated remedies. The team can review the remedies and apply them to resolve the incidents. The tool has helped the team to automate the resolution of non-critical incidents and reduce the time taken to resolve them.</p>
+    <p>Our system processed a wide variety of incident data, including:</p>
+    <ul>
+        <li>Description, category, and priority of the incident, along with any associated tags or labels, CIs, linked parent or child incidents</li> 
+        <li>Network issues: Latency spikes, packet loss, DNS resolution problems</li>
+        <li>Server errors: 503 errors, server crashes, memory leaks</li>
+        <li>Application bugs: Code exceptions, database connection failures, API timeouts</li>
+        <li>Infrastructure problems: Disk space full, CPU utilization high, server misconfigurations</li>
+        <li>Security incidents: Unauthorized access attempts, malware alerts, phishing emails</li>
+        <li>Cloud service disruptions: AWS outage, Azure downtime, GCP performance issues</li>
+        <li>Software deployment failures: Docker container crashes, Kubernetes pod restarts, CI/CD pipeline errors</li>
+        <li>User access issues: Password resets, account lockouts, permission changes</li>
+    </ul>
+    
+    <h1>Database</h1>
+    <p>For the ServiceNow project, where we integrated GenAI to auto-generate IT solutions, we had a different set of requirements that led us to choose MongoDB as our primary database. The key driver was the semi-structured, evolving nature of our data. IT incidents are wildly heterogeneous—one ticket might be about network latency, another about a corrupt Docker image. We needed a schema-less system that could adapt without migrations.</p>
+        
+    <p>MongoDB's flexible document model was perfect. Each incident became a rich BSON document, easily accommodating new fields like 'container_orchestration_type' without altering the schema. This flexibility was crucial as our system learned to handle emerging technologies like Kubernetes issues or serverless debugging.
+    </p>
+       
+    <p>We stored three main collections: incidents for raw tickets, solutions for Megatron-LM's outputs, and feedback for user reactions. In solutions, we even stored attention maps as nested documents, providing interpretability without complex joins.
+        For our massive text data, we heavily used MongoDB's Atlas Text Search. Its natural language understanding, powered by Lucene, helped us quickly filter relevant past incidents before the computationally expensive embedding process. This pre-filtering improved our end-to-end response time by 40%.
+    </p>
+       
+    <p>As our user base grew to over 10,000 IT professionals globally, we leveraged MongoDB's global clusters. Data was automatically distributed and replicated across AWS regions, ensuring IT teams in Tokyo or New York had low-latency access. We also used MongoDB's time-series collections, optimized for append-heavy workloads, to track real-time system health metrics that often correlate with incident spikes.
+    </p>
+    <p>A game-changer was MongoDB's vector search capability, introduced last year. We store Megatron-LM's 1024-dimensional solution embeddings directly in MongoDB. Using its L2 similarity search, we can find semantically related past fixes in milliseconds. This instant retrieval lets our LLM reference similar issues on-the-fly during text generation.
+        For analytics, we use MongoDB's aggregation pipeline. Complex metrics like 'solution applicability score'—involving nested fields and text similarity—are computed in real-time. We also have change streams set up to trigger AWS Lambdas, like instantly notifying senior staff about any solution that modifies kernel settings.
+       
+    </p>
+    <p> Notably, we did evaluate vector-optimized databases like Pinecone. While impressive, they didn't offer the document flexibility and rich querying we needed beyond vector search. MongoDB's unified solution prevented us from managing two separate systems.</p>
+
+    <h1>NLP</h1>
+    <p>
+        we used spacy for nlp. It's pre-trained on a ton of IT lingo. It's a great tool for tokenization, named entity recognition, and dependency parsing. We used it in our Python service, IncidentAssistant, to enrich the ticket data with key entities and relationships. This helped Megatron-LM craft more accurate and context-aware responses.
+    </p>
+    <p>
+        <ol>
+            <li>Tokenization: Breaking the text into words, punctuation marks, etc.</li>
+            <li>Named Entity Recognition (NER): Identifying entities like server names, services, locations, etc.</li>
+            <li>Dependency Parsing: Understanding the grammatical structure of the text and the relationships between words.</li>
+        </ol>
+    </p>
+    <h2>Challenges Faced and Solutions</h2>
+
+    <h3>1. Real-time Data Processing</h3>
+    <p><strong>Challenge:</strong> Processing and analyzing incident data in real-time to generate timely and accurate remedies.</p>
+    <p><strong>Solution:</strong> Leveraged AWS services like Lambda, Kafka, and ECS to build a scalable and responsive data processing pipeline. Used MongoDB's Atlas Text Search for fast retrieval of relevant past incidents.</p>
+
+    <h3>2. Model Interpretability and Explainability</h3>
+    <p><strong>Challenge:</strong> Ensuring that the AI-generated remedies were interpretable and explainable to IT professionals.</p>
+    <p><strong>Solution:</strong> Stored attention maps and solution embeddings in MongoDB to provide insights into the model's decision-making process. Used MongoDB's aggregation pipeline for real-time computation of complex metrics.</p>
+
+    <h3>3. Scalability and Global Access</h3>
+    <p><strong>Challenge:</strong> Scaling the system to handle a growing user base of over 10,000 IT professionals globally and ensuring low-latency access across different regions.</p>
+    <p><strong>Solution:</strong> Leveraged MongoDB's global clusters for automatic data distribution and replication across AWS regions. Used MongoDB's time-series collections for tracking real-time system health metrics.</p>
+
+</body>
+
+</html>

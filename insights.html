@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Insights Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding-right: 100mm;
+            padding-left: 100mm;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        .insight-section {
+            margin-bottom: 20px;
+        }
+        .insight-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .insight-section li {
+            background-color: #ecf0f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        @media only screen and (max-width: 1000px) {
+            body {
+                padding: 0px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>real-time data ingestion from MySQL to Power BI</h1>
+    <p>We used AWS
+Database Migration Service (DMS) to replicate our MySQL database to an Amazon Aurora instance in
+near real-time. This handled the load without impacting the production database. Next, we set up
+AWS Data Pipeline to transform and aggregate data into a star schema optimized for analytics. The
+processed data was then loaded into Amazon Redshift, which Power BI could query directly using its
+optimized connector. We also used AWS CloudWatch to monitor replication lag and query
+performance.</p>
+<h1>insights</h1>
+<p>
+"In Power BI, we focused on actionable insights. For individual students, we had 'learning path'
+flowcharts showing topic progressions and highlighting bottlenecks. Heatmaps displayed time
+distribution across subjects, revealing neglected areas. For instructors, we had classroom-level
+dashboards with engagement metrics, topic mastery bell curves, and predictive charts showing atrisk students. We used lots of conditional formatting, like red-yellow-green scales for performance.
+The most loved feature was the 'concept cloud,' where size represented difficulty and color showed
+mastery level.</p>
+    <h1>Student Insights Dashboard</h1>
+    
+    <div class="insight-section">
+        <h2>Overall Performance Metrics</h2>
+        <ul>
+            <li>Average Grades: Displays the student's average grades across all subjects.</li>
+            <li>Subject-Specific Grades: Detailed view of grades for each subject.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Attendance Records</h2>
+        <ul>
+            <li>Total Attendance: Percentage of classes attended.</li>
+            <li>Subject-Specific Attendance: Attendance rates for each subject.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Performance Trends</h2>
+        <ul>
+            <li>Grade Trends: Visualization of the student's grade trends over time, showing improvements or declines.</li>
+            <li>Attendance Trends: Visualization of attendance patterns over time.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Strengths and Weaknesses</h2>
+        <ul>
+            <li>Subject Proficiency: Highlights the subjects where the student excels.</li>
+            <li>Areas for Improvement: Identifies subjects and topics where the student is struggling.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Engagement Metrics</h2>
+        <ul>
+            <li>Study Time: Amount of time spent on the platform or specific subjects.</li>
+            <li>Material Usage: Details on the usage of recommended study materials (e.g., videos watched, articles read).</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Recommendation Effectiveness</h2>
+        <ul>
+            <li>Resource Utilization: Tracks which recommended resources the student has used.</li>
+            <li>Impact on Performance: Measures how the usage of recommended materials has impacted the student's grades and understanding.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Assessment Scores</h2>
+        <ul>
+            <li>Quiz and Test Scores: Detailed scores from quizzes and tests taken on the platform.</li>
+            <li>Assignment Performance: Scores and feedback on assignments submitted.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Behavioral Insights</h2>
+        <ul>
+            <li>Learning Patterns: Insights into the student's learning habits and behaviors (e.g., peak study times, preferred learning methods).</li>
+            <li>Interaction Data: Frequency and type of interactions with the platform (e.g., discussion participation, question asking).</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Progress Towards Goals</h2>
+        <ul>
+            <li>Goal Setting and Achievement: Tracks the student's progress towards set academic goals.</li>
+            <li>Milestones Reached: Significant milestones or achievements in the learning journey.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Feedback and Notes</h2>
+        <ul>
+            <li>Instructor Feedback: Comments and feedback from instructors on the student's performance.</li>
+            <li>Student Self-Assessment: Any self-assessment data or reflections provided by the student.</li>
+        </ul>
+    </div>
+
+    <div class="insight-section">
+        <h2>Comparison with Peers</h2>
+        <ul>
+            <li>Performance Comparison: Comparison of the student's performance with the class average or specific peer groups.</li>
+            <li>Engagement Comparison: How the student's engagement metrics compare to peers.</li>
+        </ul>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <style>
+            body {
+               font-family: Arial, sans-serif;
+               margin: 20px;
+               padding-right: 100mm;
+               padding-left: 100mm;
+           }
+           h1, h2, h3 {
+               color: #333;
+           }
+           code {
+               font-family: Consolas, monospace;
+               background-color: #f2f2f2;
+               padding: 2px 4px;
+           }
+           @media only screen and (max-width: 1000px) {
+               body {
+                   padding: 0px;
+               }
+           }
+       </style>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="">
+    </head>
+    <body>
+        "I chose Isolation Forest (iForest) over DBSCAN and One-Class SVM for several reasons. iForest's time
+        complexity is O(n log n), making it much faster than DBSCAN's O(n²) in high dimensions, crucial for
+        our large-scale financial data. Unlike One-Class SVM, which struggles with different-density clusters,
+        iForest's tree-based isolation mechanism works well across varying densities. It's also memoryefficient, using sub-samples to build trees. In our tests, iForest was 40% faster than DBSCAN and
+        reduced false positives by 15% compared to One-Class SVM, especially on sparse, high-dimensional
+        transaction data."
+        <script src="" async defer></script>
+    </body>
+</html>

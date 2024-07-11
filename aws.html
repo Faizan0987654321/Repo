@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Insights Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding-right: 100mm;
+            padding-left: 100mm;
+        }
+        h2 {
+            color: #2c3e50;
+        }
+        .insight-section {
+            margin-bottom: 20px;
+        }
+        .insight-section ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .insight-section li {
+            background-color: #ecf0f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>AWS Services</h1>
+
+    <P>Our AWS architecture for the Gen AI system was comprehensive. We used Amazon Lex for the
+        conversational interface, allowing IT staff to interact with the system via voice or text. Incoming
+        queries were processed by Lex and sent to a Lambda function, which orchestrated the workflow. For
+        heavy lifting, we used SageMaker to host our fine-tuned Megatron-LM model, leveraging its
+        automatic scaling. Historical tickets and model checkpoints were stored in S3 for durability. We used
+        Amazon RDS (PostgreSQL) to store structured data like incident categories, user feedback, and
+        application logs. EC2 instances handled web services and real-time analytics.</P>
+
+    <h2>AWS Lex</h2>
+    <p>Developed conversational AI chatbots using AWS Lex to automate customer service and support processes, integrating with backend systems for data retrieval and updates.</p>
+    
+    <h2>AWS SageMaker</h2>
+    <p>Trained and deployed machine learning models, including the anomaly detection and recommendation engines, using SageMaker's managed infrastructure and integrated tools for data processing, model training, and hosting.</p>
+    
+    <h2>AWS EC2</h2>
+    <p>Provisioned and managed compute instances (EC2) to run resource-intensive workloads, such as distributed model training, data processing pipelines, and containerized application deployments.</p>
+    
+    <h2>AWS S3</h2>
+    <p>Utilized S3 (Simple Storage Service) as a secure and scalable data lake to store and retrieve large volumes of structured and unstructured data required for model training and inference.</p>
+    
+    <h2>AWS RDS</h2>
+    
+    <p>Employed RDS (Relational Database Service) to set up and manage relational databases like MySQL and PostgreSQL for storing and querying student data, course materials, and other application data.</p>
+    
+    <h2>AWS Lambda</h2>
+    <p>Implemented serverless functions using AWS Lambda to build event-driven architectures, such as real-time data processing pipelines, API gateways, and integrating various AWS services.</p>
+    
+    <h2>AWS API Gateway</h2>
+    <p>Created and managed RESTful APIs using API Gateway, acting as an entry point for client applications to interact with backend services like machine learning models and databases.</p>
+    
+    <h2>AWS CloudWatch</h2>
+    <p>Monitored and analyzed application performance, resource utilization, and system health using CloudWatch's log aggregation, metrics collection, and alerting capabilities.</p>
+    
+    <h2>AWS IAM</h2>
+    <p>Implemented robust access controls and permissions management using AWS IAM (Identity and Access Management) to ensure secure access to resources and services across different environments.</p>
+
+</body>
+</html>
+
